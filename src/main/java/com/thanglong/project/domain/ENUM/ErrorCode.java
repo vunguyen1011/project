@@ -5,7 +5,11 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1000,"Role not found"),
     PROVIDER_NOT_FOUND(1001,"Provider not found"),
     OTP_NOT_CORRECT(1002,"Mã Otp không đúng"),
-    USER_ALREADY_EXISTS(409, "User already exists");
+    USER_ALREADY_EXISTS(409, "User already exists"),
+    BRAND_ALREADY_EXITED(501, "Brand already exits"),
+    BRAND_NOT_FOUND(502,"Brand not found" ),
+    CATEGORY_ALREADY_EXITED(503, "Category already exits" ),
+    CATEGORY_NOT_FOUND(504, "Category not found");
 
 
     ErrorCode(int code, String message) {
