@@ -5,7 +5,6 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1000,"Role not found"),
     PROVIDER_NOT_FOUND(1001,"Provider not found"),
     OTP_NOT_CORRECT(1002,"Mã Otp không đúng"),
-    PROVIDER_NOT_SUPPORTED(1003,"Không hỗ trợ đăng nhập"),
     USER_ALREADY_EXISTS(409, "User already exists");
 
 
