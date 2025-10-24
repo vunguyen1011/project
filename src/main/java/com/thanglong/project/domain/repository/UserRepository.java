@@ -5,6 +5,7 @@ package com.thanglong.project.domain.repository;
 import com.thanglong.project.domain.model.UserModel;
 
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -13,4 +14,5 @@ public interface UserRepository {
     Optional<UserModel> findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    List<UserModel> getAll();
 }

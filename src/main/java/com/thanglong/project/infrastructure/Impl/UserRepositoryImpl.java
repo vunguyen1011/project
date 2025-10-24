@@ -8,7 +8,9 @@ import com.thanglong.project.infrastructure.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -43,5 +45,12 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean existsByEmail(String email) {
         return userJpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public List<UserModel> getAll() {
+        return userJpaRepository.findAll().stream()
+                .map(userMapper::toModel)
+                .collect(Collectors.toList());
     }
 }

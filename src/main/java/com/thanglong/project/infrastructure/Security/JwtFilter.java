@@ -18,12 +18,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component // 1. Đánh dấu là một Spring Component để có thể inject dependency
+@Component
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter { // 2. Kế thừa OncePerRequestFilter
+public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtProvider jwtService; // Đổi tên cho nhất quán
-    private final UserDetailsService userDetailsService; // 3. Cần UserDetailsService để load thông tin user
+    private final JwtProvider jwtService;
+    private final UserDetailsService userDetailsService;
     private final RedisService redisService;
 
     @Override
@@ -33,26 +33,21 @@ public class JwtFilter extends OncePerRequestFilter { // 2. Kế thừa OncePerR
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        // Nếu không có header hoặc header không đúng định dạng -> bỏ qua
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         final String jwt = authHeader.substring(7);
-        final String userEmail = jwtService.extractUsername(jwt); // Username ở đây là email
-        // 4. Chỉ xử lý nếu có token và người dùng chưa được xác thực
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            // Kiểm tra token có hợp lệ và không nằm trong danh sách đen (đã logout)
+        final String username = jwtService.extractUsername(jwt);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwt) && !redisService.isBlackListed(jwt)) {
-                // Tạo đối tượng xác thực
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, // Dùng UserDetails thay vì chỉ username
+                        userDetails,
                         null,
-                        userDetails.getAuthorities() // Lấy quyền từ UserDetails
+                        userDetails.getAuthorities()
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // Lưu thông tin xác thực vào SecurityContext
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

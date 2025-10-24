@@ -21,10 +21,6 @@ public class MyUserDetail implements UserDetails {
     private final boolean isEnabled;
     private final Collection<SimpleGrantedAuthority> authorities;
 
-    /**
-     * Factory Method: Một cách rất hay để tạo MyUserDetail từ UserModel (domain model)
-     * mà không làm "bẩn" tầng domain.
-     */
     public static MyUserDetail from(UserModel user) {
         return MyUserDetail.builder()
                 .username(user.getUsername()) // Dùng email làm username cho Spring Security

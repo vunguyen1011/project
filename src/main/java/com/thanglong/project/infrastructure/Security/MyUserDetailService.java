@@ -2,6 +2,7 @@ package com.thanglong.project.usecase.service; // <-- Gói đề xuất
 
 import com.thanglong.project.domain.repository.UserRepository;
 import com.thanglong.project.infrastructure.Security.MyUserDetail;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,7 @@ public class MyUserDetailService implements UserDetailsService {
     private final UserRepository userRepository; // Inject repository để truy vấn DB
 
     @Override
+    @Transactional
     public MyUserDetail loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1. Dùng UserRepository để tìm UserModel trong database theo email
         return userRepository.findByUsername(username)

@@ -1,4 +1,5 @@
 package com.thanglong.project.infrastructure.Security;
+import com.thanglong.project.domain.model.UserModel;
 import com.thanglong.project.usecase.service.MyUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -35,16 +36,15 @@ public class JwtProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username, long time) {
-        System.out.println("SecretKey: " + secretKey);
-        MyUserDetail user = myUserDetailService.loadUserByUsername(username);
+    public String generateToken(UserModel userModel, long time) {
+        MyUserDetail user = MyUserDetail.from(userModel);
 
         List<String> roles = user.getAuthorities().stream()
                 .map(auth -> auth.getAuthority()) // Ví dụ: "ROLE_USER"
                 .toList();
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(user.getUsername())
                 .setIssuer("NguyenVu")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + time))
@@ -54,13 +54,13 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(UserModel userModel) {
 
-        return generateToken(username, jwtExpiration);
+        return generateToken(userModel, jwtExpiration);
     }
 
-    public String generateRefreshToken(String username) {
-        return generateToken(username, refreshExpiration);
+    public String generateRefreshToken(UserModel userModel) {
+        return generateToken(userModel, refreshExpiration);
     }
 
     public boolean isTokenValid(String token) {

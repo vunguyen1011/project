@@ -8,6 +8,7 @@ import com.thanglong.project.usecase.DTO.Request.RegisterRequest;
 import com.thanglong.project.usecase.DTO.Response.TokenResponse;
 import com.thanglong.project.usecase.Service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,5 +39,11 @@ public class AuthController {
                 .data(authService.authenticate(request))
                 .build();
     }
+//    @PostMapping("/login-google")
+//    ApiResponse<TokenResponse> loginWithGoogle(OAuth2AuthenticationToken oAuth2AuthenticationToken){
+//        return ApiResponse.<TokenResponse>builder()
+//                .data(authService.loginWithGoogle(oAuth2AuthenticationToken))
+//                .build();
+//    }
 
 }
