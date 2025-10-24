@@ -9,11 +9,11 @@ public interface BrandRepository {
     boolean existsByName(String username);
     BrandModel save(BrandModel brandModel);
 
-    Optional<BrandModel> findById(Long brandId);
+    Optional<BrandModel> findById(Integer brandId);
 
     List<BrandModel> findAll();
 
-    boolean existsById(Long brandId);
+    boolean existsById(Integer brandId);
 
-    void deleteById(Long brandId);
+    void deleteById(Integer brandId);
 }

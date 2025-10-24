@@ -1,6 +1,7 @@
 package com.thanglong.project.presentation.Controller;
 
 import com.thanglong.project.domain.model.BrandModel;
+import com.thanglong.project.usecase.DTO.Request.BrandRequest;
 import com.thanglong.project.usecase.DTO.Response.ApiResponse;
 import com.thanglong.project.usecase.Service.BrandService;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,13 @@ import java.util.List;
 @RequestMapping("/brands")
 @RequiredArgsConstructor
 public class BrandController {
+
     private final BrandService brandService;
-    @PostMapping("/brand")
-    public ApiResponse<BrandModel> createBrand(@RequestBody String name){
-        BrandModel brandModel = brandService.createBrand(name);
+
+    // === CREATE (POST /brands) ===
+    @PostMapping
+    public ApiResponse<BrandModel> createBrand(@RequestBody BrandRequest request) {
+        BrandModel brandModel = brandService.createBrand(request);
         return ApiResponse.<BrandModel>builder()
                 .code(200)
                 .data(brandModel)
@@ -23,8 +27,9 @@ public class BrandController {
                 .build();
     }
 
+    // === READ (GET /brands/{id}) ===
     @GetMapping("/{brandId}")
-    public ApiResponse<BrandModel> getBrandById(@PathVariable Long brandId) {
+    public ApiResponse<BrandModel> getBrandById(@PathVariable Integer brandId) {
         BrandModel brandModel = brandService.getBrandById(brandId);
         return ApiResponse.<BrandModel>builder()
                 .code(200)
@@ -33,7 +38,7 @@ public class BrandController {
                 .build();
     }
 
-    // == READ (GET /brands) ==
+    // === READ ALL (GET /brands) ===
     @GetMapping
     public ApiResponse<List<BrandModel>> getAllBrands() {
         List<BrandModel> brands = brandService.getAllBrands();
@@ -44,13 +49,13 @@ public class BrandController {
                 .build();
     }
 
-    // == UPDATE (PUT /brands/{brandId}) ==
+    // === UPDATE (PUT /brands/{id}) ===
     @PutMapping("/{brandId}")
     public ApiResponse<BrandModel> updateBrand(
-            @PathVariable Long brandId,
-            @RequestBody String name) {
+            @PathVariable Integer brandId,
+            @RequestBody BrandRequest request) {
 
-        BrandModel updatedBrand = brandService.updateBrand(brandId, name);
+        BrandModel updatedBrand = brandService.updateBrand(brandId, request);
         return ApiResponse.<BrandModel>builder()
                 .code(200)
                 .data(updatedBrand)
@@ -58,9 +63,9 @@ public class BrandController {
                 .build();
     }
 
-    // == DELETE (DELETE /brands/{brandId}) ==
+    // === DELETE (DELETE /brands/{id}) ===
     @DeleteMapping("/{brandId}")
-    public ApiResponse<String> deleteBrand(@PathVariable Long brandId) {
+    public ApiResponse<String> deleteBrand(@PathVariable Integer brandId) {
         brandService.deleteBrand(brandId);
         return ApiResponse.<String>builder()
                 .code(200)

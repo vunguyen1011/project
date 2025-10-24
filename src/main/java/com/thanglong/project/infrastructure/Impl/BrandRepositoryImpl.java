@@ -37,7 +37,7 @@ public class BrandRepositoryImpl implements BrandRepository {
     }
 
     @Override
-    public Optional<BrandModel> findById(Long brandId) {
+    public Optional<BrandModel> findById(Integer brandId) {
         // 1. Tìm Entity bằng JpaRepository
         Optional<Brand> entityOptional = brandJpaRepository.findById(brandId);
 
@@ -57,13 +57,13 @@ public class BrandRepositoryImpl implements BrandRepository {
     }
 
     @Override
-    public boolean existsById(Long brandId) {
+    public boolean existsById(Integer brandId) {
         // Gọi thẳng phương thức của JpaRepository
         return brandJpaRepository.existsById(brandId);
     }
 
     @Override
-    public void deleteById(Long brandId) {
+    public void deleteById(Integer brandId) {
         // Gọi thẳng phương thức của JpaRepository
         brandJpaRepository.deleteById(brandId);
     }

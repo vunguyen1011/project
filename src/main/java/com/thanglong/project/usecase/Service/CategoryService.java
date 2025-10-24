@@ -3,6 +3,7 @@ package com.thanglong.project.usecase.Service;
 import com.thanglong.project.domain.ENUM.ErrorCode;
 import com.thanglong.project.domain.model.CategoryModel;
 import com.thanglong.project.domain.repository.CategoryRepository;
+import com.thanglong.project.usecase.DTO.Request.CategoryRequest;
 import com.thanglong.project.usecase.Exception.WebErrorConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,19 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    // == CREATE ==
-    public CategoryModel createCategory(String name) {
-        if (categoryRepository.existsByName(name))
+
+    public CategoryModel createCategory(CategoryRequest request) {
+        if (categoryRepository.existsByName(request.getName()))
             throw new WebErrorConfig(ErrorCode.CATEGORY_ALREADY_EXITED); // <-- Cần ErrorCode này
 
         CategoryModel categoryModel = CategoryModel.builder()
-                .name(name)
+                .name(request.getName())
+                .parentId(request.getParentId())
                 .build();
         return categoryRepository.save(categoryModel);
     }
 
-    // == READ (Get one by ID) ==
-    public CategoryModel getCategoryById(Long categoryId) {
+
+    public CategoryModel getCategoryById(Integer categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new WebErrorConfig(ErrorCode.CATEGORY_NOT_FOUND)); // <-- Cần ErrorCode này
     }
@@ -36,22 +38,23 @@ public class CategoryService {
     }
 
     // == UPDATE ==
-    public CategoryModel updateCategory(Long categoryId, String newName) {
+    public CategoryModel updateCategory(Integer categoryId,CategoryRequest request) {
         // 1. Tìm category hiện có
         CategoryModel existingCategory = getCategoryById(categoryId); // Tái sử dụng hàm getById
 
         // 2. Kiểm tra xem tên mới đã tồn tại ở category khác chưa
-        if (!existingCategory.getName().equals(newName) && categoryRepository.existsByName(newName)) {
+        if (!existingCategory.getName().equals(request.getName()) && categoryRepository.existsByName(request.getName())) {
             throw new WebErrorConfig(ErrorCode.CATEGORY_ALREADY_EXITED);
         }
 
         // 3. Cập nhật tên và lưu
-        existingCategory.setName(newName);
+        existingCategory.setName(request.getName());
+        existingCategory.setParentId(request.getParentId());
         return categoryRepository.save(existingCategory);
     }
 
     // == DELETE ==
-    public void deleteCategory(Long categoryId) {
+    public void deleteCategory(Integer categoryId) {
         // 1. Kiểm tra xem category có tồn tại không
         if (!categoryRepository.existsById(categoryId)) {
             throw new WebErrorConfig(ErrorCode.CATEGORY_NOT_FOUND);

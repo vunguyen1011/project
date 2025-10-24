@@ -10,11 +10,11 @@ public interface CategoryRepository {
 
     CategoryModel save(CategoryModel categoryModel);
 
-    Optional<CategoryModel> findById(Long categoryId);
+    Optional<CategoryModel> findById(Integer categoryId);
 
     List<CategoryModel> findAll();
 
-    boolean existsById(Long categoryId);
+    boolean existsById(Integer categoryId);
 
-    void deleteById(Long categoryId);
+    void deleteById(Integer categoryId);
 }

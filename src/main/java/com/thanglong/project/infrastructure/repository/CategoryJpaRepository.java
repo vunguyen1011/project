@@ -3,6 +3,6 @@ package com.thanglong.project.infrastructure.repository;
 import com.thanglong.project.infrastructure.Entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryJpaRepository extends JpaRepository<Category, Long> {
+public interface CategoryJpaRepository extends JpaRepository<Category, Integer> {
     boolean existsByName(String name);
 }

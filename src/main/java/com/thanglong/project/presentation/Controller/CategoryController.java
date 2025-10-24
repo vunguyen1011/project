@@ -18,8 +18,7 @@ public class CategoryController {
     // == CREATE (POST /categories) ==
     @PostMapping
     public ApiResponse<CategoryModel> createCategory(@RequestBody CategoryRequest request) {
-        // Gọi service chỉ với 'name', theo 'CategoryService' đã tạo
-        CategoryModel categoryModel = categoryService.createCategory(request.getName());
+        CategoryModel categoryModel = categoryService.createCategory(request);
 
         return ApiResponse.<CategoryModel>builder()
                 .code(201) // 201 Created
@@ -28,9 +27,9 @@ public class CategoryController {
                 .build();
     }
 
-    // == READ (GET /categories/{categoryId}) ==
+
     @GetMapping("/{categoryId}")
-    public ApiResponse<CategoryModel> getCategoryById(@PathVariable Long categoryId) {
+    public ApiResponse<CategoryModel> getCategoryById(@PathVariable Integer categoryId) {
         CategoryModel categoryModel = categoryService.getCategoryById(categoryId);
         return ApiResponse.<CategoryModel>builder()
                 .code(200)
@@ -53,11 +52,11 @@ public class CategoryController {
     // == UPDATE (PUT /categories/{categoryId}) ==
     @PutMapping("/{categoryId}")
     public ApiResponse<CategoryModel> updateCategory(
-            @PathVariable Long categoryId,
+            @PathVariable Integer categoryId,
             @RequestBody CategoryRequest request) {
 
         // Gọi service chỉ với 'name', theo 'CategoryService' đã tạo
-        CategoryModel updatedCategory = categoryService.updateCategory(categoryId, request.getName());
+        CategoryModel updatedCategory = categoryService.updateCategory(categoryId, request);
 
         return ApiResponse.<CategoryModel>builder()
                 .code(200)
@@ -66,9 +65,8 @@ public class CategoryController {
                 .build();
     }
 
-    // == DELETE (DELETE /categories/{categoryId}) ==
     @DeleteMapping("/{categoryId}")
-    public ApiResponse<String> deleteCategory(@PathVariable Long categoryId) {
+    public ApiResponse<String> deleteCategory(@PathVariable Integer categoryId) {
         categoryService.deleteCategory(categoryId);
         return ApiResponse.<String>builder()
                 .code(200)

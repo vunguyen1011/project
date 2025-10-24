@@ -37,7 +37,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public Optional<CategoryModel> findById(Long categoryId) {
+    public Optional<CategoryModel> findById(Integer categoryId) {
         // 1. Dùng JpaRepository tìm Entity
         Optional<Category> entityOptional = categoryJpaRepository.findById(categoryId);
 
@@ -57,13 +57,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public boolean existsById(Long categoryId) {
+    public boolean existsById(Integer categoryId) {
         // Gọi thẳng phương thức của JpaRepository
         return categoryJpaRepository.existsById(categoryId);
     }
 
     @Override
-    public void deleteById(Long categoryId) {
+    public void deleteById(Integer categoryId) {
         // Gọi thẳng phương thức của JpaRepository
         categoryJpaRepository.deleteById(categoryId);
     }

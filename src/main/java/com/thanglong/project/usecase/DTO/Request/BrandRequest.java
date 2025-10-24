@@ -3,7 +3,7 @@ package com.thanglong.project.usecase.DTO.Request;
 import lombok.Data;
 
 @Data
-public class CategoryRequest {
+
+public class BrandRequest {
     private String name;
-    private Integer parentId;
 }
