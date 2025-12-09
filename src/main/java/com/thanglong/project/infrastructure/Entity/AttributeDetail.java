@@ -1,44 +1,51 @@
 package com.thanglong.project.infrastructure.Entity;
 
 import jakarta.persistence.*;
-import lombok.*; // Sử dụng các annotation cụ thể
+import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "attribute_detail") // Thêm @Table cho rõ ràng
+@Table(name = "attribute_detail")
 public class AttributeDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "attribute_id")
-    private Long attributeId;
+    // GIỮ NGUYÊN: Dùng Integer để lưu ID của Attribute cha
+    @Column(name = "attribute_id", nullable = false)
+    private Integer attributeId;
 
-    @Column(nullable = false)
-    private String value;
+    // CÁC CỘT GIÁ TRỊ VẪN GIỮ NGUYÊN
+    @Column(name = "text_value")
+    private String textValue;
 
+    @Column(name = "number_value")
+    private Long numberValue;
+
+    @Column(name = "decimal_value")
+    private BigDecimal decimalValue;
+
+    @Column(name = "boolean_value")
+    private Boolean booleanValue;
+
+    @Column(name = "date_value")
+    private LocalDate dateValue;
+
+    @Column(name = "datetime_value")
+    private LocalDateTime datetimeValue;
+
+    // Giữ lại mối quan hệ ManyToMany với ProductVariant
     @ManyToMany(mappedBy = "attributes")
-    @ToString.Exclude // SỬA: Ngăn lặp vô hạn trong toString()
+    @ToString.Exclude
     private List<ProductVariant> productVariants = new ArrayList<>();
-
-    // SỬA: Override equals() và hashCode()
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AttributeDetail that = (AttributeDetail) o;
-        return id != null && Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

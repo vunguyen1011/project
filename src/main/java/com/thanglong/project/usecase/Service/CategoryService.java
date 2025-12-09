@@ -1,7 +1,9 @@
 package com.thanglong.project.usecase.Service;
 
 import com.thanglong.project.domain.ENUM.ErrorCode;
+import com.thanglong.project.domain.model.AttributeModel;
 import com.thanglong.project.domain.model.CategoryModel;
+import com.thanglong.project.domain.repository.AttributeRepository;
 import com.thanglong.project.domain.repository.CategoryRepository;
 import com.thanglong.project.usecase.DTO.Request.CategoryRequest;
 import com.thanglong.project.usecase.Exception.WebErrorConfig;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final AttributeRepository attributeRepository;
 
     public CategoryModel createCategory(CategoryRequest request) {
         if (categoryRepository.existsByName(request.getName()))
@@ -62,5 +65,8 @@ public class CategoryService {
 
         // 2. Xóa
         categoryRepository.deleteById(categoryId);
+    }
+   public List<AttributeModel> findAttributeByCategoryId(Integer categoryId){
+        return attributeRepository.findByCategoryId(categoryId);
     }
 }

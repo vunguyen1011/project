@@ -42,10 +42,11 @@ public class Product { // Đổi tên để phân biệt với Domain Entity
     private boolean isActive;
 
     @Column(name = "brand_id")
-    private Long brandId; // Giả sử chỉ lưu ID, nếu muốn quan hệ thì dùng @ManyToOne
+    private Integer brandId; // Giả sử chỉ lưu ID, nếu muốn quan hệ thì dùng @ManyToOne
 
     @Column(name = "category_id")
-    private Long categoryId; // Tương tự brandId
+    private Integer categoryId; // Tương tự brandId
+    @Column(name="price_display")
 
     // Định nghĩa quan hệ một-nhiều với ProductVariant
     @OneToMany(

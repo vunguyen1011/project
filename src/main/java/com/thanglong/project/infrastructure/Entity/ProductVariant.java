@@ -38,10 +38,10 @@ public class ProductVariant {
     private BigDecimal sellPrice;
 
     @Column(name = "quantity_sold")
-    private Long quantitySold;
+    private Long quantitySold=0L;
 
-    @Column(name = "sku", length = 50, unique = true)
-    private String sku;
+//    @Column(name = "sku", length = 50, unique = true)
+//    private String sku;
 
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // SỬA: Ngăn lặp vô hạn trong toString()

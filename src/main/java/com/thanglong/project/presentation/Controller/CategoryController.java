@@ -1,5 +1,6 @@
 package com.thanglong.project.presentation.Controller;
 
+import com.thanglong.project.domain.model.AttributeModel;
 import com.thanglong.project.domain.model.CategoryModel;
 import com.thanglong.project.usecase.DTO.Request.CategoryRequest;
 import com.thanglong.project.usecase.DTO.Response.ApiResponse;
@@ -74,4 +75,13 @@ public class CategoryController {
                 .message("Delete category successfully")
                 .build();
     }
+    @GetMapping("/attributes/{categoryId}")
+    public ApiResponse<List<AttributeModel>> getAttributesByCategoryId(@PathVariable Integer categoryId) {
+        return ApiResponse.<List<AttributeModel>>builder()
+                .code(200)
+                .data(categoryService.findAttributeByCategoryId(categoryId))
+                .message("Get attributes by categoryId successfully")
+                .build();
+    }
+
 }

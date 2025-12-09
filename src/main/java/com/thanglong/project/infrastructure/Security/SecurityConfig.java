@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy; // THÊM IMPORT NÀY
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -32,8 +32,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(WHITE_LIST).permitAll()
-                                .anyRequest().authenticated()
+                                request.requestMatchers(WHITE_LIST).permitAll()
+                                        .anyRequest().authenticated()
 //                        request.anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -41,7 +41,6 @@ public class SecurityConfig {
                         .successHandler(customOAuth2SuccessHandler)
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(new CustomAuthEntryPoint()));
-
         return httpSecurity.build();
     }
 }
